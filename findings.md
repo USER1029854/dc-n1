@@ -24,3 +24,11 @@
 ## Verdict on F-1 as submitted
 - Real class of bug and correct decisive check, but **wrong mechanism** (DexLens spot oracle, not bin
   composition), **wrong PoC magnitude** (true ~$570, not $0.82), and **wrong severity** (LOW, not HIGH).
+
+## Flash-loan escalation: NO
+Deposit→redeem cannot be atomic: `queueWithdrawal` is gated by a 600s deposit-to-withdraw cooldown,
+and `_redeemWithdrawal` reverts (`round >= currentRound`) until the OPERATOR advances the round via
+`rebalance()`. So the profit-scaling deposit capital is not flash-loanable — it must be real, locked
+≥600s + an operator rebalance, and market-risk-exposed. The atomic manipulation leg IS flash-loanable
+but is already cheap and capped by pair WETH inventory (~1.8–3.3 WETH) + DexLens reserve-weighting +
+the ±5% guard, so flash loans raise neither the cost nor the ~1.1% share-inflation ceiling. Severity unchanged: LOW.

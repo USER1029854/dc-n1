@@ -97,6 +97,35 @@ The DOWN direction (deflate, deposit wS) is weaker (~$188) because the strategy'
 Aggregate theoretically extractable across the whole fleet ≈ **$3–6k**, requiring per-vault capital far
 exceeding the take, one-shot each, through non-atomic queues. Uneconomical.
 
+## Flash-loan analysis (does it change cost/severity? No)
+
+The attack has two capital legs that behave oppositely under flash loans:
+
+- **Manipulation leg (push the oracle): atomic → flash-loanable, but moot.** The wS→WETH→wS round
+  trip is one transaction, so the ~$4.5k could be flash-borrowed — but it is already cheap and
+  self-recovering, and its effect is **capped by pair liquidity, not capital**. The vault pair holds
+  only ~1.8–3.3 WETH; the DexLens reserve-weighting and the ±5% guard cap the oracle push at ~+2.3–4%
+  no matter how much wS is supplied. A $1B flash loan buys the same ~3 WETH and yields the same ~1.1%
+  share-inflation ceiling. Flash-loaning this leg raises neither cost nor ceiling.
+
+- **Deposit leg (scales profit toward the ~$620/vault cap): NOT flash-loanable.** Deposit→exit cannot
+  be one transaction, verified in the deployed code:
+  - `queueWithdrawal` is gated by `cooldownPassed`: `userDeposited + getDepositToWithdrawCooldown() >
+    block.timestamp` reverts. Live cooldown = **600 s** — you can't even queue in the deposit tx.
+  - `_redeemWithdrawal` reverts `BaseVault__InvalidRound` while `round >= currentRound`; a round is only
+    redeemable **after the operator advances it via `rebalance()`** (operator `0xA63C…D329`; current
+    round 40). Redemption is a separate, later, operator-gated tx.
+  - No synchronous withdraw; `emergencyWithdraw()` only in admin-set emergency mode (pro-rata anyway).
+
+  So the profit-scaling capital must be **real, locked ≥600 s + until an operator rebalance, and
+  market-risk-exposed** throughout (the operator rebalances at the corrected price).
+
+The one leg a flash loan could amplify (deposit) is exactly the non-atomic one; the atomic leg
+(manipulation) is already cheap and liquidity-capped. This queued/cooldown/operator-gated withdrawal
+is the standard ALM defense against flash-loan share-price attacks, and it is intact here — which is
+precisely why this stays LOW rather than a flash-loan-drainable HIGH. **Flash loans do not change the
+cost or the severity.**
+
 ## Severity: HIGH → LOW
 
 It is a **real, systemic** value-integrity defect (spot-priced issuance guarded only by a band that
