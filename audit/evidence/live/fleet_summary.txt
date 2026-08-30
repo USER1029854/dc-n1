@@ -1,0 +1,42 @@
+TOTAL fleet TVL (123 oracle vaults): $256,274
+
+guard config (twapEnabled,deviation,twapInterval) -> count:
+   (1, 5, 120) -> 92
+   (None, None, None) -> 31
+
+Top 20 vaults by TVL:
+  # vault                                      tokX/tokY                    TVL$ twapEn  dev  twapI
+112 0xbfc8aaa5b24c53dd1edffa3e8fdb60004fe7ae9c WETH/USSD                  56,596      1    5    120
+ 54 0x6be5a84d4a92269ec0eb228b6c4dadeced4c7d54 WETH/wS                    55,863      1    5    120
+113 0xff8d0b6c295ac0544078d2ae28f39f5036eebfaf USSD/USDC                  49,710      1    5    120
+111 0x7b23172333d1279e625eddf4c8379b3a07c59a89 wS/USSD                    44,664      1    5    120
+ 96 0xd0cc78b69a222106f2b9b17d3f44918c03b7c7af WBTC/WETH                  21,693      1    5    120
+108 0x12e5795bab6bb9a46cfdde7988463185a7622c0b WETH/USSD                  12,672      1    5    120
+ 52 0x7d85f23fefb0142cf1b79a28297f9dc585b3270f WBTC/WETH                   9,160      1    5    120
+109 0x608b907852ac292d06068f272d2857c20aeb5fac wS/USSD                     2,340      1    5    120
+ 64 0xb929c948cef5ccd29b95a12091ac36cc93a04070 USDC/scUSD                    983      1    5    120
+ 18 0xbfaab46b8285bb6cca86c62af2d70326b3776cd5 wS/scUSD                      571   None None   None
+ 60 0xa53775ff5f96f50c5f638d966140be1224103fb7 wS/USDC                       259      1    5    120
+ 61 0x8e683a8debbc94f3edfc2be24db1b5ab164c0996 WBTC/USDC                     258      1    5    120
+ 38 0x1959f13f54b4de6541cb3a55476216939208b4a1 WBTC/USDC                     246      1    5    120
+117 0xfe072c9caa8c01ffd21ec4534e6d07f42c6c036b WBTC/USSD                     189      1    5    120
+ 73 0xc65ecc48a397817b3b13e474a878c079b570d090 stS/wS                        170      1    5    120
+ 87 0x2285528a1abba66bf82bbfc8e0ae2b5dd3573c53 WETH/USDC                     112      1    5    120
+ 58 0xbb8da3de390e47f684467656cfe6972a1bdd476a OS/wS                          74      1    5    120
+ 67 0x89143e4fc6125de7183e4e57637bfb90035aa03a EURC.e/USDC                    64      1    5    120
+119 0x00e6f95edddd959b56d6dba5f35724ba49f97e19 WETH/USSD                      61      1    5    120
+120 0xd1cefcd8ff37d52e80ec75723a639e5b1995863b wS/USSD                        58      1    5    120
+
+Rough aggregate at-risk (share-inflation extractable, guarded~dev/2, unguarded~5%): $6,421
+vaults with twap guard DISABLED or unset: 31
+vaults with TVL >= $10k: 6
+vaults with TVL >= $100k: 0
+impl | twapEnabled | dev | count | TVL$
+  0xe19b636a6abee9c14eabb3f64e30c3304859bdb7 | tw=1 dev=5 | n= 73 | $255,457
+  0x19d815667267d46254574e62647c2f500449a387 | tw=None dev=None | n= 25 | $571
+  0xee17f82128bef80cfa77d0fbc1a14cacb7848f38 | tw=1 dev=5 | n= 19 | $246
+  0x579e857eedb2717d87e4c15683d0413cae9c3e5e | tw=None dev=None | n=  6 | $0
+
+Guarded OracleRewardVault (DexLens+twap5%): n=92  TVL=$255,703
+Other/older impl: n=31  TVL=$571
+Largest 'other' vault TVL: $571

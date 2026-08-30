@@ -1,0 +1,18 @@
+  === BASELINE (honest) ===
+  oracle_price_wSperWETH_1e6: 81011851287
+  activeId: 8399916
+  honest_shares_for_1000WETH: 24356427016160722958997860532261
+  attacker_value_before_wS: 81161851287175944978044999
+  === AFTER MANIPULATION (spot pushed up) ===
+  oracle_price_wSperWETH_1e6: 82895164932
+  activeId: 8399939
+  guard_checkPriceInDeviation: PASS
+  manip_shares_for_1000WETH: 24628276601420328192745271660202
+  share_inflation_bps: 111
+  === AFTER UNWIND (price restored) ===
+  oracle_price_wSperWETH_1e6: 81011842612
+  redeemable_WETH: 989359892800500799536
+  redeemable_wS: 885527816673576450309711
+  attacker_value_after_wS: 81180853384553759535649757
+  NET_PROFIT_wS: 19002097377814557604758
+  gas_deposit: 1200493
